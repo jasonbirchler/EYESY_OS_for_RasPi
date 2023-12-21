@@ -5,15 +5,14 @@ set -ex
 # Add pi user to tty
 sudo usermod -a -G tty pi
 
-# Add nodejs Debian package as source.
-# Note the need to allow releaseinfo changes. See https://askubuntu.com/questions/989906/explicitly-accept-change-for-ppa-label
-curl -sL https://deb.nodesource.com/setup_14.x | sed -e 's/apt-get /apt-get --allow-releaseinfo-change /g' | sudo bash -
+# Add nodejs 
+sudo apt install nodejs npm
 
 # Debian packages
-sudo apt install -y python-pygame python-liblo python-alsaaudio python-pip libffi-dev nodejs
+sudo apt install -y python3-pygame python3-liblo python3-alsaaudio python3-pip libffi-dev nodejs
 
 # Python packages
-sudo pip install psutil cherrypy numpy JACK-Client
+sudo apt install python3-psutil python3-cherrypy3 python3-numpy python3-jack-client
 
 # Node packages
 cd web/node && npm install && cd ../..
