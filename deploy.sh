@@ -5,14 +5,17 @@ set -ex
 # Add pi user to tty
 sudo usermod -a -G tty pi
 
+# Update apt
+sudo apt update
+
 # Add nodejs 
-sudo apt install nodejs npm
+sudo apt install -y nodejs npm
 
 # Debian packages
 sudo apt install -y python3-pygame python3-liblo python3-alsaaudio python3-pip libffi-dev nodejs
 
 # Python packages
-sudo apt install python3-psutil python3-cherrypy3 python3-numpy python3-jack-client
+sudo apt install -y python3-psutil python3-cherrypy3 python3-numpy python3-jack-client
 
 # Node packages
 cd web/node && npm install && cd ../..
