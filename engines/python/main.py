@@ -15,7 +15,7 @@ import sound
 import osd
 import liblo
 import os
-print "starting..."
+print("starting...")
 print(sys.argv)
 
 # create etc object
@@ -40,14 +40,14 @@ sound.init(etc, AOUT_JACK)
 pygame.init()
 clocker = pygame.time.Clock() # for locking fps
 
-print "pygame version " + pygame.version.ver
+print("pygame version " + pygame.version.ver)
 
 # on screen display and other screen helpers
 osd.init(etc)
 osc.send("/led", 7) # set led to running
 
 # init fb and main surfaces
-print "opening frame buffer..."
+print("opening frame buffer...")
 #os.putenv('SDL_VIDEODRIVER', "directfb")
 #hwscreen = pygame.display.set_mode(etc.RES,  pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.SCALED, 32)
 hwscreen = pygame.display.set_mode(etc.RES,  pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE, 32)
@@ -56,7 +56,7 @@ screen = pygame.Surface(hwscreen.get_size())
 pygame.mouse.set_visible(False)  # not showing mouse
 etc.xres=hwscreen.get_width()
 etc.yres=hwscreen.get_height()
-print "opened screen at: " + str(hwscreen.get_size())
+print("opened screen at: " + str(hwscreen.get_size()))
 screen.fill((0,0,0))
 hwscreen.blit(screen, (0,0))
 pygame.display.flip()
@@ -70,11 +70,11 @@ mode_load_error_displayed = False
 
 # etc gets a refrence to screen so it can save screen grabs
 etc.screen = screen
-print str(etc.screen) + " " +  str(screen)
+print(str(etc.screen) + " " +  str(screen))
 
 # load modes, post banner if none found
 if not (etc.load_modes()) :
-    print "no modes found."
+    print("no modes found.")
     osd.loading_banner(hwscreen, "No Modes found.  Insert USB drive with Modes folder and restart.")
     while True:
         # quit on esc
@@ -87,22 +87,22 @@ if not (etc.load_modes()) :
         time.sleep(1)
 
 # run setup functions if modes have them
-print "running setup..."
+print("running setup...")
 for i in range(0, len(etc.mode_names)) :
-    print etc.mode_root
+    print(etc.mode_root)
     try :
         etc.set_mode_by_index(i)
         mode = sys.modules[etc.mode]
     except AttributeError :
-        print "mode not found, probably has error"
+        print("mode not found, probably has error")
         continue
     try :
         osd.loading_banner(hwscreen,"Loading " + str(etc.mode) )
-        print "setup " + str(etc.mode)
+        print("setup " + str(etc.mode))
         mode.setup(screen, etc)
         etc.memory_used = psutil.virtual_memory()[2]
     except :
-        print "error in setup, or setup not found"
+        print("error in setup, or setup not found")
         continue
 
 # load screen grabs
@@ -126,7 +126,7 @@ mode = sys.modules[etc.mode]
 midi_led_flashing = False
 
 def exitexit() :
-    print "EXIT exiting\n"
+    print("EXIT exiting\n")
     pygame.display.quit()
     pygame.quit()
     sys.exit()
@@ -181,7 +181,7 @@ while 1:
     except :
         if (mode_load_error_displayed != True):
             etc.error = "Mode " + etc.mode  + " not loaded, probably has errors."
-            print etc.error
+            print(etc.error)
             # Set flag so we don't endlessly send out these errors.
             mode_load_error_displayed = True
         # Slowing the framerate down is something of an indicator that something is not right.
@@ -207,14 +207,14 @@ while 1:
             mode.setup(screen, etc)
         except Exception, e:
             etc.error = traceback.format_exc()
-            print "error with setup: " + etc.error
+            print("error with setup: " + etc.error)
 
     # draw it
     try :
         mode.draw(screen, etc)
     except Exception, e:
         etc.error = traceback.format_exc()
-        print "error with draw: " + etc.error
+        print("error with draw: " + etc.error)
         # no use spitting these errors out at 30 fps
         pygame.time.wait(200)
 
@@ -241,4 +241,4 @@ while 1:
 
 time.sleep(1)
 
-print "Quit"
+print("Quit")
