@@ -9,7 +9,7 @@ BASE_DIR = "/home/pi/Eyesy/presets/"
 #TODO check all the paths here
 def check_path(path) :
     path = os.path.normpath(path)
-    print path
+    print (path)
     if path.startswith("/usbdrive") or path.startswith("/sdcard") : return True
     else : return False
 

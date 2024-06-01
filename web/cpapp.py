@@ -21,8 +21,8 @@ def run_cmd(cmd) :
     except: pass
     return ret
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
+imp.reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -89,7 +89,7 @@ class Root():
     def save(self, fpath, contents):
         with open(file_operations.BASE_DIR + fpath, "w") as text_file:
             text_file.write(contents)
-        print contents
+        print(contents)
         return "SAVED " + fpath
     save.exposed = True
 
@@ -110,7 +110,7 @@ class Root():
 
     def tester(self, name):
         return "TESTdf"
-        print "cool"
+        print("cool")
     tester.exposed = True
 
     def media(self, fpath, cb):
@@ -146,7 +146,7 @@ class Root():
                     break
                 size += len(data)
                 newfile.write(data)
-        print "saved file, size: " + str(size)
+        print("saved file, size: " + str(size))
         p, ext = os.path.splitext(filepath)
         cherrypy.response.headers['Content-Type'] = "application/json"
         return '{"files":[{"name":"x","size":'+str(size)+',"url":"na","thumbnailUrl":"na","deleteUrl":"na","deleteType":"DELETE"}]}'
@@ -154,7 +154,7 @@ class Root():
     upload.exposed = True
 
     def fmdata(self, **data):
-        print "data op request"
+        print("data op request")
         ret = ''
         if 'operation' in data :
             cherrypy.response.headers['Content-Type'] = "application/json"
