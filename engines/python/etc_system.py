@@ -133,14 +133,14 @@ class System:
         self.mode_index = index
         self.mode = self.mode_names[self.mode_index]
         self.mode_root = self.MODES_PATH + self.mode + "/"
-        print "setting mode: " + self.mode_root
+        print("setting mode: " + self.mode_root)
         self.error = ''
 
     def set_mode_by_name (self, name) :
         self.mode = name 
         self.mode_index = self.mode_names.index(name)
         self.mode_root = self.MODES_PATH + self.mode + "/"
-        print "setting mode: " + self.mode_root
+        print("setting mode: " + self.mode_root)
         self.error = ''
 
     def next_mode (self) :
@@ -253,35 +253,35 @@ class System:
         pygame.transform.scale(self.screen, (128, 72), self.tengrabs_thumbs[self.grabindex] )
         self.lastgrab = self.screen.copy()
         self.lastgrab_thumb = self.tengrabs_thumbs[self.grabindex]
-        print "grabbed " + imagepath
+        print("grabbed " + imagepath)
 
     # load modes,  check if modes are found
     def load_modes(self):
-        print "loading modes..."
+        print("loading modes...")
         got_a_mode = False # at least one mode
         mode_folders = sorted(helpers.get_immediate_subdirectories(self.MODES_PATH), key=lambda s: s.lower() )
 
         for mode_folder in mode_folders :
             mode_name = str(mode_folder)
             mode_path = self.MODES_PATH+mode_name+'/main.py'
-            print mode_path
+            print(mode_path)
             try :
                 imp.load_source(mode_name, mode_path)
                 self.mode_names.append(mode_name)
                 got_a_mode = True
-            except Exception, e:
-                print traceback.format_exc()
+            except Exception as e:
+                print(traceback.format_exc())
         return got_a_mode
 
     # load a new mode (created from web editor)
     def load_new_mode(self, new_mode) :
-        print "loadeing new mode "+new_mode+"..."
+        print("loadeing new mode "+new_mode+"...")
         mode_path = self.MODES_PATH+new_mode+'/main.py'
         try :
             imp.load_source(new_mode, mode_path)
             self.mode_names.append(new_mode)
-        except Exception, e:
-            print traceback.format_exc()
+        except Exception as e:
+            print(traceback.format_exc())
         self.set_mode_by_name(new_mode)
         self.run_setup
     
@@ -290,23 +290,23 @@ class System:
         # delete the old, and reload
         if self.mode in sys.modules:  
             del(sys.modules[self.mode]) 
-        print "deleted module, reloading"
+        print("deleted module, reloading")
         try :
             imp.load_source(self.mode, self.mode_root+'/main.py')
-            print "reloaded"
-        except Exception, e:
+            print("reloaded")
+        except Exception as e:
             self.error = traceback.format_exc()
-            print "error reloading: " + self.error
+            print("error reloading: " + self.error)
         self.run_setup = True # set a flag so setup gets run from main loop
     
     # recent grabs, first check if Grabs folder is available, create if not
     def load_grabs(self):
         if not(os.path.isdir(self.GRABS_PATH)) :
-            print 'No grab folder, creating...'
+            print("No grab folder, creating...")
             os.system('mkdir ' + self.GRABS_PATH)
         # make sure it is saved as 'music' user, uid=gid=1000
         os.chown(self.GRABS_PATH, 1000, 1000)
-        print 'loading recent grabs...'
+        print("loading recent grabs...")
         self.lastgrab = None
         self.lastgrab_thumb = None
         self.tengrabs_thumbs = []
@@ -320,7 +320,7 @@ class System:
 
         for filepath in sorted(glob.glob(self.GRABS_PATH + '*.jpg')):
             filename = os.path.basename(filepath)
-            print 'loading grab: ' + filename
+            print('loading grab: ' + filename)
             img = pygame.image.load(filepath)
             img = img.convert()
             thumb = pygame.transform.scale(img, (128, 72) )
@@ -348,17 +348,17 @@ class System:
             self.save_key_status = False
                 
     def delete_current_scene(self):
-        print "deleting scene"
+        print("deleting scene")
         if len(self.scenes) > 0:
             del self.scenes[self.scene_index]
             if self.scene_index >= len(self.scenes):
                 self.scene_index = len(self.scenes) - 1
             self.recall_scene(self.scene_index)
             self.write_all_scenes()
-        #print "deleted scene: " + str(self.scene_index)
+        #print("deleted scene: " + str(self.scene_index))
 
     def save_scene(self):
-        print "saving scene"
+        print("saving scene")
         self.scenes.append([self.mode, self.knob1, self.knob2, self.knob3, self.knob4, self.knob5, self.auto_clear])
         self.write_all_scenes()
         # and set it to most recent
@@ -367,10 +367,10 @@ class System:
     def write_all_scenes(self):
 	    # write it
         with open(self.SCENES_PATH, "wb") as f:
-    	    writer = csv.writer(f,quoting=csv.QUOTE_MINIMAL)
-    	    writer.writerows(self.scenes) 
-        #print "saved scenes: " + str(self.scenes)
-        # make sure it is saved as 'music' user, uid=gid=1000
+            writer = csv.writer(f,quoting=csv.QUOTE_MINIMAL)
+            writer.writerows(self.scenes)
+            #print("saved scenes: " + str(self.scenes))
+            # make sure it is saved as 'music' user, uid=gid=1000
         os.chown(self.SCENES_PATH, 1000, 1000)
 
     def load_scenes(self):
@@ -400,8 +400,8 @@ class System:
                     scene.append(False)
                 self.scenes.append(scene)
         except:
-            print "error parsing scene file"
-        print "loaded scenes: " + str(self.scenes)
+            print("error parsing scene file")
+        print("loaded scenes: " + str(self.scenes))
 
     def next_scene(self):
         self.scene_index += 1
@@ -419,7 +419,7 @@ class System:
         self.recall_scene(self.scene_index)
 
     def recall_scene(self, index) :
-        print "recalling scene " + str(index)
+        print("recalling scene " + str(index))
         try :
             scene = self.scenes[index]
             self.scene_index = index
@@ -433,7 +433,7 @@ class System:
             self.set_mode_by_name(scene[0])
             self.scene_set = True
         except :
-            print "probably no scenes"
+            print("probably no scenes")
 
     def color_picker( self, val ):
         # convert knob to 0-1

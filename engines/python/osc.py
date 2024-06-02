@@ -23,7 +23,7 @@ def fs_callback(path, args):
 def midicc_callback(path, args):
     global etc, cc_last
     val, num = args
-    #print "midi cc: " + str(num) + " " + str(val)
+    #print("midi cc: " + str(num) + " " + str(val))
     i = num - 21
     if val != cc_last[i] :
         etc.cc_override_knob(i, float(val) / 127)
@@ -32,7 +32,7 @@ def midicc_callback(path, args):
 def midinote_callback(path, args):
     global etc
     num, val = args
-    #print "midi note: " + str(num) + " " + str(val)
+    #print("midi note: " + str(num) + " " + str(val))
     if val > 0 :
         etc.midi_notes[num] = 1
     else :
@@ -99,7 +99,7 @@ def set_callback(path, args):
     global etc
     name = args[0]
     etc.set_mode_by_name(name)
-    print "set patch to: " + str(etc.mode) + " with index " + str(etc.mode_index)
+    print("set patch to: " + str(etc.mode) + " with index " + str(etc.mode_index))
  
 def new_callback(path, args):
     global etc
@@ -108,7 +108,7 @@ def new_callback(path, args):
    
 def reload_callback(path, args):
     global etc
-    print "reloading: " + str(etc.mode)
+    print("reloading: " + str(etc.mode))
     etc.reload_mode()
 
 def midi_ch_callback(path, args):
@@ -128,7 +128,7 @@ def trigger_source_callback(path, args):
 def knobs_callback(path, args):
     global etc
     k1, k2, k3, k4, k5, k6 = args
-    #print "received message: " + str(args)
+    #print("received message: " + str(args))
     etc.knob_hardware[0] = float(k1) / 1023
     etc.knob_hardware[1] = float(k2) / 1023
     etc.knob_hardware[2] = float(k3) / 1023
@@ -138,33 +138,33 @@ def knobs_callback(path, args):
 def knob1_callback(path, args):
     global etc
     k1 = args[0]
-    #print "received message: k1 " + str(args)
+    #print("received message: k1 " + str(args))
     etc.knob_hardware[0] = float(k1) / 1023
 def knob2_callback(path, args):
     global etc
     k2 = args[0]
-    #print "received message: k2 " + str(args)
+    #print("received message: k2 " + str(args))
     etc.knob_hardware[1] = k2 / 1023
 def knob3_callback(path, args):
     global etc
     k3 = args[0]
-    #print "received message: k3 " + str(args)
+    #print("received message: k3 " + str(args))
     etc.knob_hardware[2] = k3 / 1023
 def knob4_callback(path, args):
     global etc
     k4 = args[0]
-    #print "received message: k4 " + str(args)
+    #print("received message: k4 " + str(args))
     etc.knob_hardware[3] = k4 / 1023
 def knob5_callback(path, args):
     global etc
     k5 = args[0]
-    #print "received message: k5 " + str(args)
+    #print("received message: k5 " + str(args))
     etc.knob_hardware[4] = k5 / 1023
 
 def shift_callback(path, args) :
     global etc
     stat = int(args[0])
-    print "shift: " + str(stat)
+    print("shift: " + str(stat))
     if stat == 1 : 
         etc.shift = True
         etc.set_osd(False)
@@ -172,7 +172,7 @@ def shift_callback(path, args) :
     else : 
         etc.shift = False
         etc.save_shift_params()
-    print "shift: " + str(etc.shift)
+    print("shift: " + str(etc.shift))
 
 def shift_line_callback(path, args) :
     global etc
@@ -218,7 +218,7 @@ def init (etc_object) :
     try:
         osc_server = liblo.Server(4000)
     except liblo.ServerError, err:
-        print str(err)
+        print(str(err))
     
     # added methods for TouchOsc template as it cannot send two arguments
     osc_server.add_method("/knobs/1", 'f', knob1_callback)
