@@ -205,14 +205,14 @@ while 1:
         etc.error = ''
         try :
             mode.setup(screen, etc)
-        except Exception, e:
+        except Exception as e:
             etc.error = traceback.format_exc()
             print("error with setup: " + etc.error)
 
     # draw it
     try :
         mode.draw(screen, etc)
-    except Exception, e:
+    except Exception as e:
         etc.error = traceback.format_exc()
         print("error with draw: " + etc.error)
         # no use spitting these errors out at 30 fps
