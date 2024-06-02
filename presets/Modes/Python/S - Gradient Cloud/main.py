@@ -15,7 +15,7 @@ def draw(screen, etc):
 	x240 = ((240*xr)/1280)
 	xhalf = xr/2
 	yr = etc.yres
-	yhalf = yr/2
+	yhalf = yr%2
 	y480 = ((480*yr)/720)
 	xpos1 = int(etc.knob1*4*x240)-2*x240
 	cool = yhalf

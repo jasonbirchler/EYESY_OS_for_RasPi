@@ -374,14 +374,14 @@ class System:
         os.chown(self.SCENES_PATH, 1000, 1000)
 
     def load_scenes(self):
-        # create scene file if doesn't exits
+        # create scene file if doesn't exist
         if not os.path.exists(self.SCENES_PATH):
             f = file(self.SCENES_PATH, "w")
             f.close()
         # make sure it is saved as 'music' user, uid=gid=1000
         os.chown(self.SCENES_PATH, 1000, 1000)
         # open it
-        with open(self.SCENES_PATH, 'rb') as f:
+        with open(self.SCENES_PATH, 'r', encoding='utf-8') as f:
             reader = csv.reader(f)
             csvin = list(reader)
         self.scenes = []
