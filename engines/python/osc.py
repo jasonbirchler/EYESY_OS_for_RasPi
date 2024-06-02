@@ -217,7 +217,7 @@ def init (etc_object) :
 
     try:
         osc_server = liblo.Server(4000)
-    except liblo.ServerError, err:
+    except (liblo.ServerError, err):
         print(str(err))
     
     # added methods for TouchOsc template as it cannot send two arguments
